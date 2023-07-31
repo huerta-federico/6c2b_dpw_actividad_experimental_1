@@ -1,0 +1,10 @@
+Saludos Ing. René Elizalde,
+
+En este documento quisiera añadir algunas explicaciones breves acerca del trabajo:
+- Utilicé una estructura similar a una página web hecha para la materia Desarrollo Web que utiliza php para conectarse a MariaDB.
+- Por esto, tengo más archivos php ya que estoy separando las funciones php, espero que estoy no cause inconvenientes.
+- A la entidad de parques, decidí cambiar el campo dirección por el campo nombre porque me pareció más útil porque ciertos parques son muy grandes para tener una dirección única.
+- En el archivo SQL está todo lo necesario para crear la BD, que tiene el nombre ae1_02bim, e ingresar los datos.
+
+Muchas gracias,
+Atte. Federico Huerta

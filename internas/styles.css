@@ -1,0 +1,295 @@
+/* Color de fondo */
+body {
+    background-color: #71a1d4;
+}
+
+/* Div - Menú de navegación */
+#menubar {
+    width: auto;
+    margin-top: 2em;
+    height: auto;
+    text-align: center;
+    text-transform: uppercase;
+}
+
+/* Lista del menú de navegación */
+#menuUl {
+    display: inline;
+    padding: .8em .3em .9em 0em;
+    -webkit-box-shadow: 0 0 5px rgba(0, 0, 0, 0.15);
+    -moz-box-shadow: 0 0 5px rgba(0, 0, 0, 0.15);
+    box-shadow: 0 0 5px rgba(0, 0, 0, 0.5);
+}
+
+/* Item del menú de navegación */
+.menuLi {
+    font: bold 12px/18px sans-serif;
+    display: inline-block;
+    margin-right: -0.4em;
+    margin-left: -0.4em;
+    position: relative;
+    padding: 1.2em 2em;
+    background: white;
+    cursor: pointer;
+    -webkit-transition: all 0.2s;
+    -moz-transition: all 0.2s;
+    -ms-transition: all 0.2s;
+    -o-transition: all 0.2s;
+    transition: all 0.2s;
+}
+
+/* Item del menú de navegación que activa un submenu */
+.menuLiDrop {
+    font: bold 12px/18px sans-serif;
+    display: inline-block;
+    margin-right: -0.4em;
+    margin-left: -0.4em;
+    position: relative;
+    padding: 1.2em 2em;
+    background: white;
+    color: #567da7;
+    cursor: pointer;
+    -webkit-transition: all 0.2s;
+    -moz-transition: all 0.2s;
+    -ms-transition: all 0.2s;
+    -o-transition: all 0.2s;
+    transition: all 0.2s;
+}
+
+/* Lista del submenú de navegación (Oculto por defecto) */
+.menuUlDrop {
+    display: none;
+    position: absolute;
+    font: bold 12px/18px sans-serif;
+    margin-right: -0.2em;
+    margin-left: -0.2em;
+    padding: 0.3em 0.3em;
+    background: white;
+    -webkit-transition: all 0.2s;
+    -moz-transition: all 0.2s;
+    -ms-transition: all 0.2s;
+    -o-transition: all 0.2s;
+    transition: all 0.2s;
+    box-shadow: 0px 8px 16px 0px rgba(0, 0, 0, 0.2);
+    z-index: 1;
+}
+
+/* Formatos para vínculos dentro del menú de navegación */
+.menuLi a {
+    color: #567da7;
+    text-decoration: none;
+}
+
+.menuLi span {
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    top: 0;
+    left: 0;
+    z-index: 1;
+}
+
+
+/* Formatos responsivos del menú de navegación al pasar el cursor */
+.menuLiDrop:hover .menuUlDrop {
+    display: block;
+}
+
+.menuLiDrop:hover {
+    background: #567da7;
+    color: white;
+}
+
+.menuLi:hover {
+    background: #567da7;
+}
+
+.menuLi:hover a {
+    color: white;
+}
+
+/* Formato para h1, h2, h3, h4 */
+h1 {
+    font: bold 40px/50px sans-serif;
+    text-align: center;
+    color: white;
+    text-shadow: 2px 2px #567da7;
+}
+
+h2 {
+    margin-top: 30px;
+    font: bold 25px/30px sans-serif;
+    text-align: center;
+    color: white;
+    text-shadow: 2px 2px #567da7;
+}
+
+h3 {
+    margin-top: 20px;
+    font: bold 18px/20px sans-serif;
+    color: white;
+    text-align: center;
+}
+
+h4 {
+    margin-top: 20px;
+    font: bold 18px/20px sans-serif;
+    color: white;
+    text-align: center;
+}
+
+/* Formato para article */
+article {
+    text-align: justify;
+    margin: auto;
+    background: #567da7;
+    font: 12px/18px sans-serif;
+    color: white;
+    width: 60%;
+    margin-bottom: 5%;
+    padding: 2em 2em;
+    box-shadow: 0 0 5px rgba(0, 0, 0, 0.3);
+}
+
+/* Formato para footer */
+footer {
+    justify-content: center;
+    text-align: center;
+    background-color: white;
+    margin: auto;
+    color: #567da7;
+    font: bold 12px/14px sans-serif;
+    width: 40%;
+    padding: 0.5em 2em;
+    -webkit-box-shadow: 0 0 5px rgba(0, 0, 0, 0.15);
+    -moz-box-shadow: 0 0 5px rgba(0, 0, 0, 0.15);
+    box-shadow: 0 0 5px rgba(0, 0, 0, 0.15);
+}
+
+/* Clase para el formulario */
+.form {
+    display: inline-block;
+    margin-left: auto;
+    margin-right: auto;
+    text-align: left;
+}
+
+.form textarea {
+    height: 10em;
+    width: 40em;
+    max-width: 40em;
+    font: inherit;
+}
+
+#asunto {
+    width: 40em;
+}
+
+input {
+    font: inherit;
+}
+
+.formulario {
+    display: block;
+    text-align: center;
+}
+
+/* Clase y evento para un botón */
+.button {
+    background: white;
+    justify-content: center;
+    text-align: center;
+    display: flex;
+    margin: auto;
+    font: bold 12px/18px sans-serif;
+    color: #567da7;
+    width: 20em;
+    margin-top: 1em;
+    margin-bottom: 1em;
+    padding: 1em;
+    text-transform: uppercase;
+    -webkit-box-shadow: 0 0 5px rgba(0, 0, 0, 0.15);
+    -moz-box-shadow: 0 0 5px rgba(0, 0, 0, 0.15);
+    box-shadow: 0 0 5px rgba(0, 0, 0, 0.15);
+    -webkit-transition: all 0.2s;
+    -moz-transition: all 0.2s;
+    -ms-transition: all 0.2s;
+    -o-transition: all 0.2s;
+    transition: all 0.2s;
+    text-decoration: none;
+}
+
+.button:hover {
+    background: #567da7;
+    color: white;
+    cursor: pointer;
+}
+
+/* Formato para el logo */
+.logo {
+    width: 12em;
+    margin: auto;
+    margin-top: 2%;
+    display: flex;
+    justify-content: center;
+}
+
+/* Formato para imágenes medianas */
+.mediumIMG {
+    width: 20em;
+    margin: auto;
+    margin-top: 2%;
+    display: flex;
+    justify-content: center;
+}
+
+/* Formato para imágenes pequeñas */
+.smallIMG {
+    width: 10em;
+    margin: auto;
+    margin-top: 2%;
+    display: flex;
+    justify-content: center;
+}
+
+/* Formato para video mediano */
+.video {
+    margin: auto;
+    justify-content: center;
+    display: flex;
+    width: 40em;
+    height: 22.5em;
+    border: 0;
+}
+
+/* Formato para tablas */
+table {
+    border-color: white;
+    border: 1px solid;
+    padding: 0.5em;
+    margin: auto;
+    width: 80%;
+    text-align: center;
+}
+
+thead td{
+    font-weight: bold;
+    border: 2px solid;
+}
+
+td {
+    border-color: white;
+}
+
+
+caption {
+    padding: 0.5em;
+    font: bold 14px/16px sans-serif;
+    color: white;
+    text-align: center;
+}
+
+/* Formato para una lista anidada */
+.insideUL {
+    list-style: none;
+}
