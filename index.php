@@ -47,32 +47,32 @@
         <!-- Artículo principal -->
         <article>
             <h3>Listado de parques</h3>
-            <?php 
-                //Archivos externos para la conexión y gestión de la BD
-                include("internas/config.php");
-                include("internas/class_mysqli.php");
+            <?php
+            //Archivos externos para la conexión y gestión de la BD
+            include("internas/config.php");
+            include("internas/class_mysqli.php");
 
-                //Creación del objeto miconexion de clase class_mysqli
-                $miconexion= new class_mysqli;
+            //Creación del objeto miconexion de clase class_mysqli
+            $miconexion = new class_mysqli;
 
-                //Llamada a la función conectar del objeto
-                $miconexion->conectar(DBHOST, DBUSER, DBPASS, DBNAME);
+            //Llamada a la función conectar del objeto
+            $miconexion->conectar(DBHOST, DBUSER, DBPASS, DBNAME);
 
-                //Ejecuta una sentencia SQL a través de la función consulta, la cual utiliza msqli_query para dicho fin
-                //En este caso, se ejecuta un select completo de la vista de libros de informática
-                $miconexion->consulta('select * from parques');
-                
-                //Muestra los resultados de la consulta previa en una tabla
-                $miconexion->verconsultaCrud();
+            //Ejecuta una sentencia SQL a través de la función consulta, la cual utiliza msqli_query para dicho fin
+            //En este caso, se ejecuta un select completo de la vista de libros de informática
+            $miconexion->consulta('select * from parques');
 
-                
-                ?>
+            //Muestra los resultados de la consulta previa en una tabla
+            $miconexion->verconsultaCrud();
+
+
+            ?>
             <br><br>
             <h3>Listado de monumentos</h3>
             <?php
-                $miconexion->consulta('select * from monumentos');
-                //Muestra los resultados de la consulta previa en una tabla
-                $miconexion->verconsultaCrud();
+            $miconexion->consulta('select * from monumentos');
+            //Muestra los resultados de la consulta previa en una tabla
+            $miconexion->verconsultaCrud();
             ?>
 
         </article>
