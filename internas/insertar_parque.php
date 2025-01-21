@@ -8,46 +8,61 @@ error_reporting(E_ALL);
 include("config.php");
 include("class_mysqli.php");
 
+// Variables para guardar mensajes
+$error = "";
+$success = "";
+
 // Verificar si los campos requeridos están establecidos
-if (!isset($_POST['nombre'], $_POST['extension'], $_POST['ciudad'], $_POST['anio_inauguracion'], $_POST['barrio'])) {
-  header("Location: nuevo_parque.php?error=" . urlencode("Todos los campos son obligatorios."));
-  exit();
+if ($_SERVER['REQUEST_METHOD'] === 'POST') {
+    
+    // Sanitizaciones
+    $nombre = htmlspecialchars($_POST['nombre'], ENT_QUOTES, 'UTF-8');
+    $extension = filter_input(INPUT_POST, 'extension', FILTER_VALIDATE_INT);
+    $ciudad = htmlspecialchars($_POST['ciudad'], ENT_QUOTES, 'UTF-8');
+    $anio_inauguracion = filter_input(INPUT_POST, 'anio_inauguracion', FILTER_VALIDATE_INT);
+    $barrio = htmlspecialchars($_POST['barrio'], ENT_QUOTES, 'UTF-8');
+    
+    if (!$nombre || !$extension || !$ciudad || !$anio_inauguracion || !$barrio) {
+        $error = "Todos los campos son obligatorios.";
+    } else {
+        // Crear una nueva instancia de mysqli
+        $miconexion = new mysqli(DBHOST, DBUSER, DBPASS, DBNAME);
+
+        // Verificar conexión
+        if ($miconexion->connect_error) {
+            die("Conexión fallida: " . $miconexion->connect_error);
+        }
+
+        // Preparar y vincular
+        $stmt = $miconexion->prepare("INSERT INTO `parques` (`nombre`, `extension_hectareas`, `ciudad`, `anio_inauguracion`, `barrio`) VALUES (?, ?, ?, ?, ?)");
+        if (!$stmt) {
+            $error = "Error al preparar la declaración: " . $miconexion->error;
+        } else {
+            $stmt->bind_param("sisss", $nombre, $extension, $ciudad, $anio_inauguracion, $barrio);
+
+            // Ejecutar la declaración
+            if ($stmt->execute()) {
+                $success = "Parque registrado satisfactoriamente.";
+                header("Location: ../index.php");
+                exit();
+            } else {
+                $error = "Error al registrar el parque: " . $stmt->error;
+            }
+
+            // Cerrar declaración y conexión
+            $stmt->close();
+        }
+
+        $miconexion->close();
+    }
 }
 
-$nombre = $_POST['nombre'];
-$extension = intval($_POST['extension']);
-$ciudad = $_POST['ciudad'];
-$anio_inauguracion = intval($_POST['anio_inauguracion']);
-$barrio = $_POST['barrio'];
-
-// Crear una nueva instancia de mysqli
-$miconexion = new mysqli(DBHOST, DBUSER, DBPASS, DBNAME);
-
-// Verificar conexión
-if ($miconexion->connect_error) {
-  die("Conexión fallida: " . $miconexion->connect_error);
+// Mostrar mensajes de error o éxito
+if ($error) {
+    echo "<p style='color:red;'>$error</p>";
 }
 
-// Preparar y vincular
-$stmt = $miconexion->prepare("INSERT INTO `parques` (`nombre`, `extension_hectareas`, `ciudad`, `anio_inauguracion`, `barrio`) VALUES (?, ?, ?, ?, ?)");
-if (!$stmt) {
-  $mensaje = "Error al preparar la declaración: " . $miconexion->error;
-  header("Location: nuevo_parque.php?error=" . urlencode($mensaje));
-  exit();
+if ($success) {
+    echo "<p style='color:green;'>$success</p>";
 }
-$stmt->bind_param("sisss", $nombre, $extension, $ciudad, $anio_inauguracion, $barrio);
-
-// Ejecutar la declaración
-if ($stmt->execute()) {
-  // Si hay éxito con la inserción, se realiza un redirect a index.php
-  header("Location: ../index.php");
-} else {
-  // Si existe un error, se captura el error y se hace un redirect a nuevo_parque.php
-  // Además se envía el mensaje de error como parámetro
-  $mensaje = $stmt->error;
-  header("Location: nuevo_parque.php?error=" . urlencode($mensaje));
-}
-
-// Cerrar declaración y conexión
-$stmt->close();
-$miconexion->close();
+?>

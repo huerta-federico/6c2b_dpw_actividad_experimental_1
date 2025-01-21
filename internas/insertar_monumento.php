@@ -8,45 +8,60 @@ error_reporting(E_ALL);
 include("config.php");
 include("class_mysqli.php");
 
+// Variables para guardar mensajes
+$error = "";
+$success = "";
+
 // Verificar si los campos requeridos están establecidos
-if (!isset($_POST['nombre'], $_POST['tipo_de_material'], $_POST['altura'], $_POST['ciudad'])) {
-  header("Location: nuevo_monumento.php?error=" . urlencode("Todos los campos son obligatorios."));
-  exit();
+if ($_SERVER['REQUEST_METHOD'] === 'POST') {
+    
+    // Sanitizaciones
+    $nombre = htmlspecialchars($_POST['nombre'], ENT_QUOTES, 'UTF-8');
+    $tipo_de_material = htmlspecialchars($_POST['tipo_de_material'], ENT_QUOTES, 'UTF-8');
+    $altura = filter_input(INPUT_POST, 'altura', FILTER_VALIDATE_INT);
+    $ciudad = htmlspecialchars($_POST['ciudad'], ENT_QUOTES, 'UTF-8');
+    
+    if (!$nombre || !$tipo_de_material || !$altura || !$ciudad) {
+        $error = "Todos los campos son obligatorios.";
+    } else {
+        // Crear una nueva instancia de mysqli
+        $miconexion = new mysqli(DBHOST, DBUSER, DBPASS, DBNAME);
+
+        // Verificar conexión
+        if ($miconexion->connect_error) {
+            die("Conexión fallida: " . $miconexion->connect_error);
+        }
+
+        // Preparar y vincular
+        $stmt = $miconexion->prepare("INSERT INTO `monumentos` (`nombre`, `tipo_de_material`, `altura_metros`, `ciudad`) VALUES (?, ?, ?, ?)");
+        if (!$stmt) {
+            $error = "Error al preparar la declaración: " . $miconexion->error;
+        } else {
+            $stmt->bind_param("ssis", $nombre, $tipo_de_material, $altura, $ciudad);
+
+            // Ejecutar la declaración
+            if ($stmt->execute()) {
+                $success = "Monumento registrado satisfactoriamente.";
+                header("Location: ../index.php");
+                exit();
+            } else {
+                $error = "Error al registrar el monumento: " . $stmt->error;
+            }
+
+            // Cerrar declaración y conexión
+            $stmt->close();
+        }
+
+        $miconexion->close();
+    }
 }
 
-$nombre = $_POST['nombre'];
-$tipo_de_material = $_POST['tipo_de_material'];
-$altura = intval($_POST['altura']);
-$ciudad = $_POST['ciudad'];
-
-// Crear una nueva instancia de mysqli
-$miconexion = new mysqli(DBHOST, DBUSER, DBPASS, DBNAME);
-
-// Verificar conexión
-if ($miconexion->connect_error) {
-  die("Conexión fallida: " . $miconexion->connect_error);
+// Mostrar mensajes de error o éxito
+if ($error) {
+    echo "<p style='color:red;'>$error</p>";
 }
 
-// Preparar y vincular
-$stmt = $miconexion->prepare("INSERT INTO `monumentos` (`nombre`, `tipo_de_material`, `altura_metros`, `ciudad`) VALUES (?, ?, ?, ?)");
-if (!$stmt) {
-  $mensaje = "Error al preparar la declaración: " . $miconexion->error;
-  header("Location: nuevo_monumento.php?error=" . urlencode($mensaje));
-  exit();
+if ($success) {
+    echo "<p style='color:green;'>$success</p>";
 }
-$stmt->bind_param("ssis", $nombre, $tipo_de_material, $altura, $ciudad);
-
-// Ejecutar la declaración
-if ($stmt->execute()) {
-  // Si hay éxito con la inserción, se realiza un redirect a index.php
-  header("Location: ../index.php");
-} else {
-  // Si existe un error, se captura el error y se hace un redirect a nuevo_monumento.php
-  // Además se envía el mensaje de error como parámetro
-  $mensaje = $stmt->error;
-  header("Location: nuevo_monumento.php?error=" . urlencode($mensaje));
-}
-
-// Cerrar declaración y conexión
-$stmt->close();
-$miconexion->close();
+?>
